@@ -56,6 +56,20 @@ class LinkedList:
                 nodes[i].next = nodes[i + 1]
         return new_head
 
+    def __add__(self, other: "LinkedList") -> "LinkedList":
+
+        if not isinstance(other, LinkedList):
+            return self
+
+        if other.head is None:
+            return self
+        if self.head is None:
+            return other
+
+        self.tail.next = other.head
+        self.tail = other.tail
+        self.insertion_sort()
+        return self
 
     def insertion_sort(self):
         if not self.head or not self.head.next:
@@ -70,6 +84,7 @@ class LinkedList:
             current = next_node
 
         self.head = sorted_head
+
 
     def insert_sorted(self, head: Node, node: Node) -> Node:
         if head is None or node.value < head.value:
