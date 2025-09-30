@@ -1,66 +1,50 @@
 import turtle
 
-
-
-def tree_piphagor_segment(t: turtle.Turtle, length: int, depth: int, angle: int = 30):
-
+def pythagoras_tree(t: turtle.Turtle, length: float, depth: int):
     if depth == 0:
-       return t.pos()
+        return
 
+    # намалювати основну гілку
     t.forward(length)
-    current_pos = t.pos()
-    current_heading = t.heading()
+    pos = t.pos()       # кінець цієї гілки
+    angle = t.heading() # кут гілки
 
-    t.left(30)
-    tree_piphagor_segment(t, length * 0.7, depth - 1, angle)
+    # ліва гілка
+    t.left(45)
+    pythagoras_tree(t, length * 0.7, depth - 1)
 
+    # відновлюємо стан
     t.penup()
-    t.setpos(current_pos)
-    t.setheading(current_heading)
+    t.goto(pos)
+    t.setheading(angle)
     t.pendown()
 
-    t.right(30)
-    tree_piphagor_segment(t, length * 0.7, depth - 1, angle)
+    # права гілка
+    t.right(45)
+    pythagoras_tree(t, length * 0.7, depth - 1)
 
+    # повертаємося у початок поточної гілки
     t.penup()
-    t.setpos(current_pos)
-    t.setheading(current_heading)
+    t.goto(pos)
+    t.setheading(angle)
+    t.backward(length)
     t.pendown()
 
 
-def paint_piphagor_tree(length: int, depth: int):
+def paint_pyphagor_tree(length: int, depth: int):
     window = turtle.Screen()
     window.bgcolor("white")
+
 
     t = turtle.Turtle()
     t.speed(0)
     t.penup()
     t.left(90)
-    t.goto(0, -300)
+    t.goto(0, -100)
     t.pendown()
 
-    tree_piphagor_segment(t, length, depth)
-    current_pos = t.pos()
-    current_heading = t.heading()
-
-    for _ in range(10):
-        for i in range(3):
-            t.left(30)
-            tree_piphagor_segment(t, length,  depth)
-        t.penup()
-        t.setpos(current_pos)
-        t.setheading(current_heading)
-        t.pendown()
-        for i in range(3):
-            t.right(30)
-            tree_piphagor_segment(t, length, depth)
-        t.penup()
-        t.setpos(current_pos)
-        t.setheading(current_heading)
-        t.pendown()
-        t.left(30)
-
+    pythagoras_tree(t, length, depth)
 
     window.mainloop()
+paint_pyphagor_tree(100, 10)
 
-paint_piphagor_tree(100, 2)
