@@ -14,6 +14,25 @@ class Node:
         self.color = color # Додатковий аргумент для зберігання кольору вузла
         self.id = str(uuid.uuid4())# Унікальний ідентифікатор для кожного вузла
 
+def bfs_walk(root: Node):
+    q = deque([root])
+    while q:
+        node = q.popleft()
+        if node.left:
+            q.append(node.left)
+        if node.right:
+            q.append(node.right)
+
+def dfs_walk(root: Node):
+    stack = [root]
+    while stack:
+        node = stack.pop()
+        if node.left:
+            stack.append(node.left)
+        if node.right:
+            stack.append(node.right)
+
+
 def heap_insert(node: Node, root: Node):
     if root is None:
         root = node
