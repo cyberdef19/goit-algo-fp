@@ -28,8 +28,42 @@ def greedy_algorithm(budget: float) -> {}:
 
 
 def dynamic_programming(budget: int) -> {}:
-    pass
+    result = {}
+    foods = list(items.keys())
+    costs = [items[name]["cost"] for name in foods]
+    calories = [items[name]["calories"] for name in foods]
+
+    #Створимо список оптимальних страв та максимальних калорій
+    #для кожного бюджета від 0 до budget
+    set_optimum = [{"foods": [],
+                    "calories": 0} for _ in range(budget + 1)]
+
+    for i in range(len(foods)):
+        cost, cal = costs[i], calories[i]
+        for b in range(cost, budget + 1):
+            if set_optimum[b - cost]["calories"] + cal > set_optimum[b]["calories"]:
+                set_optimum[b]["calories"] = set_optimum[b - cost]["calories"] + cal
+                set_optimum[b]['foods'] = set_optimum[b - cost]['foods'] + [foods[i]]
+    set_foods = set()
+    #підраховуємо кількість товарів, що потрапили у список їжі
+    for val in set_optimum[budget]["foods"]:
+        set_foods.add(val)
+    while set_foods:
+        elem = set_foods.pop()
+        count = set_optimum[budget]['foods'].count(elem)
+        result[elem] = count
+    result["calories"] = set_optimum[budget]["calories"]
+
+    return result
 
 
-print(greedy_algorithm(4000))
+print(dynamic_programming(100))
+print(greedy_algorithm(100))
+
+
+
+
+
+
+
 
